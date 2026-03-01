@@ -97,6 +97,19 @@ class Book {
         this.year = year;
         this.available = true;
     }
+    
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public String getIsbn() { return isbn; }
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean available) { this.available = available; }
+
+    @Override
+    public String toString() {
+        return String.format("'%s' by %s (%d) - ISBN: %s - %s", 
+                            title, author, year, isbn, 
+                            available ? "Available" : "Borrowed");
+    }
 }
 
 class Member {
@@ -109,5 +122,40 @@ class Member {
         this.name = name;
         this.memberId = memberId;
         this.borrowedBooks = new ArrayList<>();
+    }
+
+    public String getMemberId() { return memberId; }
+
+    public boolean borrowMemberBook(Book book) {
+        Boolean result = !!(borrowedBooks.size() < MAX_BORROW_LIMIT);
+        if (borrowedBooks.size() < MAX_BORROW_LIMIT) {
+            borrowedBooks.add(book);
+        }
+        return result;
+    }
+
+    public boolean returnMemberBook(Book book) {
+        return borrowedBooks.remove(book);
+    }
+    
+    public int getBorrowedBooks() {
+        return this.borrowedBooks.size();
+    }
+
+    public void displayBorrowedBooks() {
+        if (borrowedBooks.isEmpty()) {
+            System.out.println("No books borrowed");
+        } else {
+            System.out.println("Borrowed Books:");
+            for (Book book : borrowedBooks) {
+                System.out.println("  - " + book.getTitle());
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Member: %s (ID: %s) - Borrowed: %d/%d books", 
+                            name, memberId, borrowedBooks.size(), MAX_BORROW_LIMIT);
     }
 }
