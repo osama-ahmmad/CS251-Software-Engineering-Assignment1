@@ -97,6 +97,19 @@ class Book {
         this.year = year;
         this.available = true;
     }
+    
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public String getIsbn() { return isbn; }
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean available) { this.available = available; }
+
+    @Override
+    public String toString() {
+        return String.format("'%s' by %s (%d) - ISBN: %s - %s", 
+                            title, author, year, isbn, 
+                            available ? "Available" : "Borrowed");
+    }
 }
 
 class Member {
